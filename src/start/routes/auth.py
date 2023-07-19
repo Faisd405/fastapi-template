@@ -14,3 +14,11 @@ async def login():
 @router.post('/register')
 async def register():
     pass
+
+@router.get('/me')
+async def get_users():
+    pass
+
+@router.get('/update')
+async def get_users():
+    pass
