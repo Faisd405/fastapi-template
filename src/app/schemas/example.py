@@ -4,8 +4,6 @@ from pydantic import BaseModel
 
 
 # Shared properties
-
-
 class ExampleBase(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None

@@ -4,16 +4,12 @@ from src.databases.database import get_database_session
 from sqlalchemy.orm import Session
 from src.app.schemas.example import ExampleCreate, ExampleUpdate
 
-router = APIRouter(
-    prefix='/examples',
-    tags=['examples'],
-    responses={404: {'description': 'Not found'}},
-)
+router = APIRouter()
 
 
 @router.get('/')
-async def get_all_examples(db: Session = Depends(get_database_session), skip: int = 0, limit: int = 100):
-    return await get_examples(db)
+async def get_all_examples(db: Session = Depends(get_database_session), current_page: int = 0, limit: int = 100):
+    return await get_examples(db, current_page, limit)
 
 
 @router.get('/{example_id}')

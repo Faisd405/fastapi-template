@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, func
 from sqlalchemy.orm import relationship
 
 from src.databases.migrations.migration_class import BaseMigrationClass
@@ -18,5 +18,7 @@ class Example(BaseMigrationClass):
     title = Column(String(191), index=True)
     description = Column(String(191), index=True)
     owner_id = Column(Integer, ForeignKey("users.id"))
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    update_at = Column(DateTime(timezone=True), onupdate=func.now())
     
     owner = relationship("User", back_populates="example")
