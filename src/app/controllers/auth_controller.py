@@ -61,14 +61,14 @@ async def register(db: Session, user_data: UserCreate):
 
 async def get_users(db: Session, current_user: UserSchema):
     if current_user is None:
-        raise HTTPException(status_code=404, detail='User not found')
+        raise HTTPException(status_code=401, detail='Not authorized')
 
     return current_user
 
 
 async def update_users(db: Session, current_user: UserSchema, user_data: UserUpdate):
     if current_user is None:
-        raise HTTPException(status_code=404, detail='User not found')
+        raise HTTPException(status_code=401, detail='Not authorized')
 
     if user_data.password is not None:
         if user_data.password != user_data.confirmed_password:
@@ -83,7 +83,7 @@ async def update_users(db: Session, current_user: UserSchema, user_data: UserUpd
         UserModel.username == current_user.username).first()
 
     if db_user is None:
-        raise HTTPException(status_code=404, detail='User not found')
+        raise HTTPException(status_code=401, detail='Not authorized')
 
     for key, value in user_data.dict(exclude_unset=True).items():
         setattr(db_user, key, value)
